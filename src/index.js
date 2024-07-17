@@ -3,10 +3,10 @@ const bodyParser = require("body-parser");
 const TelegramBot = require("node-telegram-bot-api");
 const path = require("path");
 
-const token = process.env.TELEGRAM_BOT_TOKEN;
-const serviceUrl = process.env.SERVICE_URL;
-// const token = "7207636680:AAG8mujSGaog67rD0i4GtmhESzumGyuhgtw";
-// const serviceUrl = "https://fd14-36-112-186-118.ngrok-free.app";
+// const token = process.env.TELEGRAM_BOT_TOKEN;
+// const serviceUrl = process.env.SERVICE_URL;
+const token = "7207636680:AAG8mujSGaog67rD0i4GtmhESzumGyuhgtw";
+const serviceUrl = "https://d595-36-112-189-119.ngrok-free.app";
 const bot = new TelegramBot(token, { polling: false });
 
 const app = express();
@@ -44,7 +44,7 @@ bot.onText(/\/start/, async (msg) => {
             {
               text: "🔥 Adopt cat！",
               web_app: {
-                url: "https://127.0.0.1:3000",
+                url: "https://127.0.0.1:3000/tg-home",
               },
             },
           ],
@@ -91,7 +91,7 @@ bot.on("message", (msg) => {
                   {
                     text: "💎 Play game",
                     web_app: {
-                      url: "https://127.0.0.1:3000",
+                      url: "https://127.0.0.1:3000/tg-home",
                     },
                   },
                 ],
@@ -155,11 +155,11 @@ app.post(webhookPath, (req, res) => {
 });
 
 app.get("/env", (req, res) => {
-  res.send(token, serviceUrl);
+  res.send({ token, serviceUrl });
 });
 
-app.listen(3000, async () => {
-  console.log("Webhook server is listening on port 3000");
+app.listen(3333, async () => {
+  console.log("Webhook server is listening on port 3333");
   await clearWebhook();
   setWebhook();
 });
