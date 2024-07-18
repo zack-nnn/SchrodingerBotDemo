@@ -2,11 +2,10 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const TelegramBot = require("node-telegram-bot-api");
 const path = require("path");
+const config = require("./config");
 
-// const token = process.env.TELEGRAM_BOT_TOKEN;
-// const serviceUrl = process.env.SERVICE_URL;
-const token = "7211975687:AAEsrpXXak8SKCfJtJQFVTosV-w04bQ95Xs";
-const serviceUrl = "https://384d-36-112-189-119.ngrok-free.app";
+const token = process.env.TELEGRAM_BOT_TOKEN;
+const serviceUrl = process.env.SERVICE_URL;
 const bot = new TelegramBot(token, { polling: false });
 
 const app = express();
@@ -21,7 +20,7 @@ bot.onText(/\/start/, async (msg) => {
     const chatId = msg.chat.id;
     const relativePath = "images/banner-img.jpg";
     const absolutePath = path.resolve(__dirname, relativePath);
-    await bot.sendMessage(chatId, "👏 Welcome to the schrodinger's cat Game!", {
+    await bot.sendMessage(chatId, "Welcome to Schrodinger's Cat Game!🐱", {
       reply_markup: {
         keyboard: [
           [
@@ -37,27 +36,27 @@ bot.onText(/\/start/, async (msg) => {
     });
     await bot.sendPhoto(chatId, absolutePath, {
       caption:
-        "👏 Draw rare cats, get high yield, super high yield waiting for you to challenge！\n 💪🏻 Buy chips ($SGR), smoke cats, trade cats, and earn extra points!",
+        "Adopt Cats, Trade Rare Cats, and Earn Flux Points to farm $SGR token rewards!💎\nPlay and Earn token rewards now!🚀",
       reply_markup: {
         inline_keyboard: [
           [
             {
-              text: "🔥 Adopt cat！",
+              text: "🐱 Play and Earn",
               web_app: {
-                url: "https://cat.schrodingerai.com/tg-home",
+                url: config.tgHomeUrl,
               },
             },
           ],
           [
             {
-              text: "💰 Join community",
-              callback_data: "joinCommunity",
+              text: "Join Community",
+              url: "https://t.me/projectschrodingercat",
             },
           ],
           [
             {
-              text: "🐱 Follow X",
-              callback_data: "followX",
+              text: "Follow X",
+              url: "https://x.com/ProjSchrodinger",
             },
           ],
         ],
@@ -68,12 +67,6 @@ bot.onText(/\/start/, async (msg) => {
   }
 });
 
-bot.on("callback_query", (callbackQuery) => {
-  const chatId = callbackQuery.message.chat.id;
-  const data = callbackQuery.data;
-  // bot.answerCallbackQuery(callbackQuery.id);
-});
-
 bot.on("message", (msg) => {
   const chatId = msg.chat.id;
   const text = msg.text;
@@ -82,7 +75,7 @@ bot.on("message", (msg) => {
       case "📖 Help":
         bot.sendMessage(
           chatId,
-          "🐱 Dear Lucky, please feel free to contact us anytime while using our products.\n\n💡*QA Doc*\nIf you have any questions, please first look for answers in the QA section.\nLink：xxxx\n\n📫 *Report*\nIf you encounter any bugs or issues you can't handle, please submit them through the report link.\nlink: xxxx\n\n🔑 *Community*\nThe Schrodinger Announcement channel will provide updates on Schrodinger news. Please follow us there.\nlink: xxxx",
+          `🐱 Hey Kitty! We're here for you anytime while you're exploring the world of Schrodinger's Cats.\n\n💡*🙀 Got Questions?*\nCheck out our Q&A section for quick answers.\nLink：${config.websiteUrl} \n\n📫 *🔥 Stay Connected*\nBe part of our vibrant community for all the latest Schrodinger updates. Join our TG channel today! \nlink: https://t.me/projectschrodingercat`,
           {
             parse_mode: "Markdown",
             reply_markup: {
@@ -91,7 +84,7 @@ bot.on("message", (msg) => {
                   {
                     text: "💎 Play game",
                     web_app: {
-                      url: "https://cat.schrodingerai.com/tg-home",
+                      url: config.tgHomeUrl,
                     },
                   },
                 ],
@@ -152,10 +145,6 @@ app.post(webhookPath, (req, res) => {
     console.error("Error handling webhook update:", error);
     res.sendStatus(500);
   }
-});
-
-app.get("/env", (req, res) => {
-  res.send({ token, serviceUrl });
 });
 
 app.listen(3333, async () => {
