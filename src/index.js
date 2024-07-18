@@ -5,8 +5,8 @@ const path = require("path");
 
 // const token = process.env.TELEGRAM_BOT_TOKEN;
 // const serviceUrl = process.env.SERVICE_URL;
-const token = "7207636680:AAG8mujSGaog67rD0i4GtmhESzumGyuhgtw";
-const serviceUrl = "https://d595-36-112-189-119.ngrok-free.app";
+const token = "7211975687:AAEsrpXXak8SKCfJtJQFVTosV-w04bQ95Xs";
+const serviceUrl = "https://384d-36-112-189-119.ngrok-free.app";
 const bot = new TelegramBot(token, { polling: false });
 
 const app = express();
@@ -44,7 +44,7 @@ bot.onText(/\/start/, async (msg) => {
             {
               text: "🔥 Adopt cat！",
               web_app: {
-                url: "https://127.0.0.1:3000/tg-home",
+                url: "https://cat.schrodingerai.com/tg-home",
               },
             },
           ],
@@ -91,7 +91,7 @@ bot.on("message", (msg) => {
                   {
                     text: "💎 Play game",
                     web_app: {
-                      url: "https://127.0.0.1:3000/tg-home",
+                      url: "https://cat.schrodingerai.com/tg-home",
                     },
                   },
                 ],
